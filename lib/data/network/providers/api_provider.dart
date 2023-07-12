@@ -9,27 +9,42 @@ import 'package:n8_default_project/utils/constants.dart';
 class ApiProvider {
   //------------------------------Login provider--------------------------------
 
-  Future<UniversalResponse> loginUser({
-    required String username,
-    required String password,
-  }) async {
-    Uri url = Uri.parse('$baseUrl/auth/login');
-    try {
-      final response = await http.post(
-        url,
-        body: {
-          {"username": username, "password": password}
-        },
-      );
-      if (response.statusCode == 200) {
-        String token = jsonDecode(response.body)["token"];
-        return UniversalResponse(data: token);
+  Future<UniversalResponse> loginUser({required String username, required String password}) async{
+    Uri uri = Uri.parse("https://fakestoreapi.com/auth/login");
+    try{
+      http.Response response = await http.post(uri, body: {"username": username, "password": password});
+
+      if(response.statusCode == 200){
+        return UniversalResponse(
+            data: jsonDecode(response.body)['token']
+        );
       }
-      return UniversalResponse(error: 'Error: Status code not equal to 200');
-    } catch (e) {
-      return UniversalResponse(error: e.toString());
+      return UniversalResponse(error: "ERROR");
+    }catch(error){
+      return UniversalResponse(error: error.toString());
     }
   }
+  // Future<UniversalResponse> loginUser({
+  //   required String username,
+  //   required String password,
+  // }) async {
+  //   Uri url = Uri.parse('$baseUrl/auth/login');
+  //   try {
+  //     final response = await http.post(
+  //       url,
+  //       body: {
+  //         {"username": username, "password": password}
+  //       },
+  //     );
+  //     if (response.statusCode == 200) {
+  //       String token = jsonDecode(response.body)["token"];
+  //       return UniversalResponse(data: token);
+  //     }
+  //     return UniversalResponse(error: 'Error: Status code not equal to 200');
+  //   } catch (e) {
+  //     return UniversalResponse(error: e.toString());
+  //   }
+  // }
 
   //------------------------------Product provider------------------------------
 

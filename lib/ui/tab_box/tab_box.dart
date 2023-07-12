@@ -32,6 +32,7 @@ class _TabBoxState extends State<TabBox> {
     screens.add(ProductsScreen(
       productRepo: productRepo,
       categoryRepo: categoryRepo,
+      apiProvider: ApiProvider(),
     ));
     screens.add(UsersScreen(
       userRepo: userRepo,
@@ -43,11 +44,16 @@ class _TabBoxState extends State<TabBox> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
-        children: screens,
         index: activePage,
+        children: screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.deepPurple,
         currentIndex: activePage,
+        unselectedIconTheme: const IconThemeData(color: Colors.white),
+        selectedIconTheme: IconThemeData(color: Colors.white.withOpacity(0.7)),
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         onTap: (index) {
           setState(() {
             activePage = index;
@@ -57,14 +63,12 @@ class _TabBoxState extends State<TabBox> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.shop,
-              color: Colors.black,
             ),
             label: "Products",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.people,
-              color: Colors.black,
             ),
             label: "Users",
           ),
